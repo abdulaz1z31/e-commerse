@@ -1,5 +1,9 @@
 import { BaseEntity } from 'src/common';
-import { Column, Entity } from 'typeorm';
+import { BasketEntity } from 'src/domain/basket';
+import { ImageEntity } from 'src/domain/images';
+import { OrderEntity } from 'src/domain/order';
+import { SubCategoryEntity } from 'src/domain/subCategory';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('product')
 export class ProductEntity extends BaseEntity {
@@ -18,6 +22,16 @@ export class ProductEntity extends BaseEntity {
   @Column({ type: 'uuid', name: 'category_id' })
   category_id: string;
 
-  @Column({})
-  image: string;
+  @ManyToOne(() => SubCategoryEntity, (category) => category.products)
+  @JoinColumn({ name: 'category_id' })
+  category: SubCategoryEntity;
+
+  @OneToMany(() => BasketEntity, (basket) => basket.product)
+  baskets: BasketEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.product)
+  orders: OrderEntity[];
+
+  @OneToMany(() => ImageEntity, (image) => image.product)
+  images: ImageEntity[];
 }

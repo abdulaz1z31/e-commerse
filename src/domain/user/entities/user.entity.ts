@@ -1,16 +1,18 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { UserRoles } from '../constants/user-role.enum';
 import { BaseEntity } from 'src/common';
+import { BasketEntity } from 'src/domain/basket';
+import { OrderEntity } from 'src/domain/order';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
-  @Column()
+  @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   username: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   password: string;
 
   @Column({
@@ -20,4 +22,10 @@ export class UserEntity extends BaseEntity {
     default: UserRoles.user,
   })
   role: UserRoles;
+
+  @OneToMany(() => BasketEntity, (basket) => basket.user)
+  baskets: BasketEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: OrderEntity[];
 }

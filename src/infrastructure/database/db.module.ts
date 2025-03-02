@@ -4,6 +4,7 @@ import { config } from '../config';
 import {
   BasketEntity,
   CategoryEntity,
+  ImageEntity,
   OrderEntity,
   ProductEntity,
   SubCategoryEntity,
@@ -20,8 +21,9 @@ import {
         CategoryEntity,
         SubCategoryEntity,
         ProductEntity,
-        OrderEntity,
+        ImageEntity,
         BasketEntity,
+        OrderEntity,
       ],
       synchronize: true,
       autoLoadEntities: true,

@@ -1,14 +1,19 @@
 import { BaseEntity } from 'src/common';
-import { Column, Entity } from 'typeorm';
+import { ImageEntity } from 'src/domain/images';
+import { SubCategoryEntity } from 'src/domain/subCategory';
+import { Column, Entity, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity('category')
 export class CategoryEntity extends BaseEntity {
-  @Column({ type: 'varchar', name: 'name', unique: true })
+  @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @Column({ type: 'text', name: 'description' })
+  @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'varchar', name: 'image' })
-  image: string;
+  @OneToMany(() => SubCategoryEntity, (subcategory) => subcategory.category)
+  sub_categories: SubCategoryEntity[];
+
+  @OneToMany(() => ImageEntity, (image) => image.category)
+  images: ImageEntity[];
 }

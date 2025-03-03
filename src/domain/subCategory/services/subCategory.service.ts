@@ -41,7 +41,9 @@ export class SubCategoryService {
   }
 
   async findOne(id: string) {
-    const category = await this.subCategoryRepository.findOne({ where: { id } });
+    const category = await this.subCategoryRepository.findOne({
+      where: { id },
+    });
     if (!category) {
       throw new NotFoundException('Category not found');
     }
@@ -72,7 +74,9 @@ export class SubCategoryService {
   }
 
   async remove(id: string) {
-    const category = await this.subCategoryRepository.findOne({ where: { id } });
+    const category = await this.subCategoryRepository.findOne({
+      where: { id },
+    });
     if (!category) {
       throw new NotFoundException('Category not found');
     }

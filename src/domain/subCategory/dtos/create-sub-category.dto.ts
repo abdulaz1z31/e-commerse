@@ -9,10 +9,6 @@ export class CreateSubCategoryDto {
   @IsNotEmpty()
   description: string;
 
-  @IsString()
-  @IsNotEmpty()
-  image: string;
-
   @IsUUID()
   @IsNotEmpty()
   category_id: string;

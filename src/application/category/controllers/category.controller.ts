@@ -11,7 +11,11 @@ import {
   UploadedFiles,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { ImageValidationPipe, Roles } from 'src/common';
+import {
+  MultipleImagesValidationPipe,
+  Roles,
+  SingleImageValidationPipe,
+} from 'src/common';
 import {
   CategoryService,
   CreateCategoryDto,
@@ -55,7 +59,7 @@ export class CategoryController {
   })
   @ApiResponse({ status: 201, description: 'image uploaded' })
   async uploadOne(
-    @UploadedFile(new ImageValidationPipe()) file: Express.Multer.File,
+    @UploadedFile(new SingleImageValidationPipe()) file: Express.Multer.File,
     @Param('id') id: string,
   ) {
     return await this.imageService.uploadOne(file, id, OwnerType.category);
@@ -77,7 +81,8 @@ export class CategoryController {
   })
   @ApiResponse({ status: 201, description: 'image uploaded' })
   async uploadMany(
-    @UploadedFiles(new ImageValidationPipe()) files: Express.Multer.File[],
+    @UploadedFiles(new MultipleImagesValidationPipe())
+    files: Express.Multer.File[],
     @Param('id') id: string,
   ) {
     return await this.imageService.uploadMany(files, id, OwnerType.category);

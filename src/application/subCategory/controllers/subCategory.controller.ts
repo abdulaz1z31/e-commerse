@@ -17,7 +17,11 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { ImageValidationPipe, Roles } from 'src/common';
+import {
+  MultipleImagesValidationPipe,
+  Roles,
+  SingleImageValidationPipe,
+} from 'src/common';
 import {
   CreateSubCategoryDto,
   ImageService,
@@ -42,7 +46,7 @@ export class SubCategoryController {
   @ApiOperation({ summary: 'Upload an image for subcategory' })
   @ApiResponse({ status: 201, description: 'Image uploaded successfully' })
   async uploadOne(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(new SingleImageValidationPipe()) file: Express.Multer.File,
     @Param('id') id: string,
   ) {
     return await this.imageService.uploadOne(file, id, OwnerType.category);
@@ -54,7 +58,8 @@ export class SubCategoryController {
   @ApiOperation({ summary: 'Upload multiple images for subcategory' })
   @ApiResponse({ status: 201, description: 'Images uploaded successfully' })
   async uploadMany(
-    @UploadedFiles(new ImageValidationPipe()) files: Express.Multer.File[],
+    @UploadedFiles(new MultipleImagesValidationPipe())
+    files: Express.Multer.File[],
     @Param('id') id: string,
   ) {
     return await this.imageService.uploadMany(files, id, OwnerType.category);

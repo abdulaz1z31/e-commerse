@@ -7,6 +7,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBearerAuth,
+  ApiHeader,
 } from '@nestjs/swagger';
 
 @ApiTags('Orders')
@@ -19,6 +20,11 @@ export class OrderController {
   @Roles(UserRoles.user)
   @ApiOperation({ summary: 'Yangi order yaratish' })
   @ApiResponse({ status: 201, description: 'Order created' })
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Bearer <JWT Token>',
+    required: true,
+  })
   createOrder(@UserID() id: string) {
     return this.orderService.createOrder(id);
   }

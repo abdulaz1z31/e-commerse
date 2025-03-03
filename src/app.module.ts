@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import {
   AuthModule,
+  BasketModule,
   CategoryModule,
   ProductModule,
   SubCategoryModule,
@@ -24,6 +25,7 @@ import { FileModule } from './infrastructure/fileSerivce/fileService.module';
     SubCategoryModule,
     FileModule,
     ProductModule,
+    BasketModule,
   ],
   controllers: [],
   providers: [],

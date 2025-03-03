@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { BasketService } from 'src/domain';
+import { BasketEntity, BasketService } from 'src/domain';
 import { BasketController } from './controllers/basket.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BasketModule])],
+  imports: [TypeOrmModule.forFeature([BasketEntity])],
   controllers: [BasketController],
   providers: [BasketService],
   exports: [BasketService],

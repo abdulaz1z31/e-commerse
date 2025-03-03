@@ -1,12 +1,12 @@
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
-import { Roles } from 'src/common/decorators';
 import { UpdateUserDto, UserRoles, UserService } from 'src/domain';
+import { Roles } from 'src/common/decorators';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-  // @Roles(UserRoles.admin)
   @Get()
+  @Roles(UserRoles.admin)
   findAll() {
     return this.userService.findAll();
   }
@@ -16,7 +16,7 @@ export class UserController {
     return this.userService.findOneBy({ id });
   }
 
-  // @Roles(UserRoles.user)
+  @Roles(UserRoles.user)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);

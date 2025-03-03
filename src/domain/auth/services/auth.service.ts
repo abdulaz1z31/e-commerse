@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
   async register(data: RegisterAuthDto) {
     const exitingUsername = this.userService.isUsernameExists(data.username);
-    if (exitingUsername) {
+    if (!exitingUsername) {
       throw new ConflictException('Username already exists');
     }
     const user = await this.userService.save(data);

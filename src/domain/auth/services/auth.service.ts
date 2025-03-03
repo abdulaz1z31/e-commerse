@@ -17,8 +17,11 @@ export class AuthService {
     private readonly hashingService: HashingService,
   ) {}
   async register(data: RegisterAuthDto) {
-    const exitingUsername = this.userService.isUsernameExists(data.username);
-    if (!exitingUsername) {
+    const exitingUsername = await this.userService.isUsernameExists(
+      data.username,
+    );
+
+    if (exitingUsername) {
       throw new ConflictException('Username already exists');
     }
     const user = await this.userService.save(data);
@@ -35,7 +38,7 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    const checkPassword = this.hashingService.decrypt(
+    const checkPassword = await this.hashingService.decrypt(
       data.password,
       user.password,
     );
@@ -57,12 +60,13 @@ export class AuthService {
       },
     };
   }
-  async refreshToken(dto: RefreshDto, id: string) {
+  async refreshToken(dto: RefreshDto) {
     const decode = await this.jwtService.verifyRefreshToken(dto.refresh_token);
-    if (decode.id != id) {
-      throw new BadRequestException('Bad request');
-    }
-    const accessToken = this.jwtService.createAccessToken(decode);
+    const payload = {
+      id: decode.id,
+      role: decode.role,
+    };
+    const accessToken = this.jwtService.createAccessToken(payload);
 
     return {
       message: 'Success',

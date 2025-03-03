@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UsePipes,
   UploadedFile,
   UploadedFiles,
 } from '@nestjs/common';
@@ -32,7 +31,6 @@ export class SubCategoryController {
   @Post(':id/upload-image')
   @Roles(UserRoles.admin)
   @UseInterceptors(FileInterceptor('file'))
-  @UsePipes(ImageValidationPipe)
   async uploadOne(
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
@@ -43,9 +41,8 @@ export class SubCategoryController {
   @Post(':id/upload-images')
   @Roles(UserRoles.admin)
   @UseInterceptors(FilesInterceptor('files'))
-  @UsePipes(ImageValidationPipe)
   async uploadMany(
-    @UploadedFiles() files: Express.Multer.File[],
+    @UploadedFiles(new ImageValidationPipe()) files: Express.Multer.File[],
     @Param('id') id: string,
   ) {
     return await this.imageService.uploadMany(files, id, OwnerType.category);

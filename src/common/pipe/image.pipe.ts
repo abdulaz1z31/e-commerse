@@ -18,8 +18,8 @@ export class ImageValidationPipe implements PipeTransform<any> {
   ];
 
   transform(value: any) {
-    if (!value) {
-      throw new BadRequestException('File is required.');
+    if (!value || (Array.isArray(value) && value.length === 0)) {
+      throw new BadRequestException('At least one file is required.');
     }
 
     if (Array.isArray(value)) {
@@ -32,7 +32,7 @@ export class ImageValidationPipe implements PipeTransform<any> {
   }
 
   private validateFile(file: Express.Multer.File) {
-    if (!file.originalname || !file.mimetype) {
+    if (!file || !file.originalname || !file.mimetype) {
       throw new BadRequestException('Invalid file format.');
     }
 

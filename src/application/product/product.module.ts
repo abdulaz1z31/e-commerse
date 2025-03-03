@@ -5,12 +5,15 @@ import {
   ImageService,
   ProductEntity,
   ProductService,
+  SubCategoryEntity,
 } from 'src/domain';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileService } from 'src/infrastructure/fileSerivce/fileService.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductEntity, ImageEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ProductEntity, ImageEntity, SubCategoryEntity]),
+  ],
   controllers: [ProductController],
   providers: [ProductService, ImageService, FileService],
   exports: [ProductService],

@@ -11,6 +11,7 @@ import {
   UploadedFiles,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { ImageValidationPipe, Roles } from 'src/common';
 import {
   CreateProductDto,
@@ -21,6 +22,7 @@ import {
   UserRoles,
 } from 'src/domain';
 
+@ApiBearerAuth()
 @Controller('product')
 export class ProductController {
   constructor(

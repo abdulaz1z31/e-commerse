@@ -10,9 +10,17 @@ export class ImageEntity extends BaseEntity {
   @Column()
   image: string;
 
-  @Column({ type: 'uuid', nullable: true })
+  @Column({ type: 'uuid', name: 'product_id', nullable: true })
   @Index()
-  owner_id: string;
+  product_id: string;
+
+  @Column({ type: 'uuid', name: 'category_id', nullable: true })
+  @Index()
+  category_id: string;
+
+  @Column({ type: 'uuid', name: 'sub_category_id', nullable: true })
+  @Index()
+  sub_category_id: string;
 
   @Column({ type: 'enum', enum: OwnerType })
   @Index()
